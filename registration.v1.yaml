@@ -1,0 +1,249 @@
+openapi: 3.0.0
+info:
+  title: registration
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/assets/{commRef}/{serialNumber}/installed-base':
+    parameters:
+      - schema:
+          type: string
+        name: commRef
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: serialNumber
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-assets-commRef-serialNumber
+    post:
+      summary: ''
+      operationId: post-assets-commRef-serialNumber
+      responses:
+        '200':
+          description: OK
+  /sites:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/site'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: get-sites
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: siteId
+          description: 'comma separated list of '
+          required: true
+        - schema:
+            type: boolean
+          in: query
+          name: includeAssets
+          description: 'Default is false, if true - this also fetches the installed asset details.'
+    parameters: []
+components:
+  schemas:
+    location:
+      title: location
+      type: object
+      properties:
+        parentBfoId:
+          type: string
+        bfoId:
+          type: string
+        function:
+          type: string
+        name:
+          type: string
+        sitePhone:
+          type: string
+        siteSpecificComments:
+          type: string
+        type:
+          type: string
+        address:
+          $ref: '#/components/schemas/address'
+    installedProduct:
+      type: object
+      properties:
+        assetDetails:
+          type: object
+          properties:
+            assetDescription:
+              type: string
+            underContract:
+              type: boolean
+            serialNumber:
+              type: string
+            standardSerialNumber:
+              type: string
+            installationDate:
+              type: string
+            manufacturingDate:
+              type: string
+            note:
+              type: string
+            shipDate:
+              type: string
+            trackingStatus:
+              type: string
+            version:
+              type: string
+            warrantyCode:
+              type: string
+            warrantyEndDate:
+              type: string
+            warrantyStartDate:
+              type: string
+            withdrawlDate:
+              type: string
+            assetId:
+              type: string
+            parentAssetId:
+              type: string
+            estimatedEndOfLifeDate:
+              type: string
+            purchasedDate:
+              type: string
+            decommissioningDate:
+              type: string
+            usageStatus:
+              type: string
+            assetBfoId:
+              type: string
+            customerAssetReferences:
+              type: object
+              properties:
+                customerAssetDescription:
+                  type: string
+                customerAssetReference:
+                  type: string
+                customerAssetSerialNumber:
+                  type: string
+            connectedAttributes:
+              type: object
+              properties:
+                connected:
+                  type: boolean
+        productDetails:
+          type: object
+          properties:
+            endOfLifeDate:
+              type: string
+            endOfCommercialisationDate:
+              type: string
+            subRange:
+              type: string
+            deviceType:
+              type: string
+            range:
+              type: string
+            brand:
+              type: string
+            schneiderCommercialReference:
+              type: string
+            productLine:
+              type: string
+            serviceable:
+              type: boolean
+            connectable:
+              type: string
+            serviceObsolenceDate:
+              type: string
+            endOfServiceDate:
+              type: string
+            fieldServiceBU:
+              type: string
+    siteDetails:
+      title: siteDetails
+      type: object
+      properties:
+        name:
+          type: string
+        number:
+          type: string
+        address:
+          $ref: '#/components/schemas/address'
+        billingAddress:
+          $ref: '#/components/schemas/address'
+        bfoId:
+          type: string
+        schneiderId:
+          type: string
+        parentbFoId:
+          type: string
+    address:
+      title: address
+      type: object
+      properties:
+        businessName:
+          type: string
+        street:
+          type: string
+        additionalLine:
+          type: string
+        city:
+          type: object
+          properties:
+            code:
+              type: string
+            name:
+              type: string
+        state:
+          type: string
+        zipCode:
+          type: string
+        country:
+          type: object
+          properties:
+            code:
+              type: string
+            name:
+              type: string
+        language:
+          type: string
+        gpsLatitude:
+          type: string
+        gpsLongitude:
+          type: string
+    site:
+      title: site
+      type: object
+      properties:
+        siteDetails:
+          $ref: '#/components/schemas/siteDetails'
+        locations:
+          type: array
+          items:
+            type: object
+            properties:
+              location:
+                $ref: '#/components/schemas/location'
+              installedProducts:
+                type: array
+                items:
+                  $ref: '#/components/schemas/installedProduct'

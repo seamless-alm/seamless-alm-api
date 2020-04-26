@@ -1,0 +1,109 @@
+openapi: 3.0.0
+info:
+  title: asset-info
+  version: '1.0'
+  description: Asset Info APIs
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/assets/{commRef}/product-data':
+    parameters:
+      - schema:
+          type: string
+        name: commRef
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  commRef:
+                    type: string
+                  productAttributes:
+                    $ref: '#/components/schemas/productAttributes'
+                  productImage:
+                    $ref: '#/components/schemas/productImage'
+                  productDocuments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/productDocument'
+              examples:
+                example-1: {}
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+        '404':
+          description: Not Found
+      operationId: get-assets-commRef-product-data
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - image
+              - attributes
+              - documents
+              - all
+          in: query
+          name: data
+          description: default is attributes
+        - schema:
+            type: string
+          in: query
+          name: locale
+          description: default is en-GB
+components:
+  schemas:
+    productAttributes:
+      title: productAttributes
+      type: object
+      properties:
+        longDescription:
+          type: string
+        shortDescription:
+          type: string
+        brand:
+          type: string
+        range:
+          type: string
+        deviceType:
+          type: string
+        serviceable:
+          type: boolean
+        traceable:
+          type: string
+        connectable:
+          type: string
+    productDocument:
+      title: productDocument
+      type: object
+      description: product document
+      properties:
+        docDescription:
+          type: string
+        docDownloadURL:
+          type: string
+        docReference:
+          type: string
+        docName:
+          type: string
+        docType:
+          type: string
+        docTitle:
+          type: string
+        docSize:
+          type: string
+    productImage:
+      title: productImage
+      type: object
+      description: Image of the product
+      properties:
+        imageDownloadURL:
+          type: string
